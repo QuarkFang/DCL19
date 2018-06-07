@@ -25,8 +25,16 @@
                                 // set up the updating of the chart each second             
                                 var series = this.series[0];
                                 setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time         
-                                        y = 36.75 + Math.random() / 10.0;
+                                    var x = (new Date()).getTime(); // current time
+                                    var y;
+                                    $.ajax({type: 'GET',
+                                        async: false,
+                                        url:"/data_temperature",
+                                        dataType:'json',
+                                        success:function(data)
+                                        {
+                                            y = Number(data['Temperature'])
+                                        }});
                                     series.addPoint([x, y], true, true);
                                 }, 1000);
                             }
