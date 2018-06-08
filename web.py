@@ -16,6 +16,16 @@ def home(name):
     return render_template('home.html', title_name='welcome', name=name)
 
 
+@app.route('/home/<name>/temperature')
+def temperature(name):
+    return render_template('temperature.html', title_name='temperature', name=name)
+
+
+@app.route('/home/<name>/step')
+def step(name):
+    return render_template('step.html', title_name='step', name=name)
+
+
 @app.route('/group19')
 def group():
     return '<h1>Building</h1>'
@@ -36,4 +46,5 @@ def data_temperature():
 
 
 if __name__ == '__main__':
+    data = {'Temperature': 36.8, 'Step': 1999, 'Fat': 9.1}
     app.run("0.0.0.0", debug=True)
