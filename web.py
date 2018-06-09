@@ -26,16 +26,21 @@ def step(name):
     return render_template('step.html', title_name='step', name=name)
 
 
+@app.route('/home/<name>/fat')
+def fat(name):
+    return render_template('fat.html', title_name='fat', name=name)
+
+
 @app.route('/group19')
 def group():
     return '<h1>Building</h1>'
 
 
 @app.route('/data', methods=['GET', 'POST'])
-def data():
+def data_get():
+    global data
     if request.method == 'POST':
         data = {'Temperature': request.form['Temperature'], 'Step': request.form['Step'], 'Fat': request.form['Fat']}
-        global data
     if request.method == 'GET':
         return json.dumps(data)
 
