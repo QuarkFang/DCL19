@@ -14,7 +14,7 @@
                 });
 
                 var chart;
-                $('#container').highcharts({
+                $('#container1').highcharts({
                     chart: {
                         type: 'spline',
                         animation: Highcharts.svg, // don't animate in old IE               
@@ -23,20 +23,20 @@
                             load: function () {
 
                                 // set up the updating of the chart each second             
-                                var series = this.series[0];
+                                var series1 = this.series[0];
                                 setInterval(function () {
                                     var x = (new Date()).getTime(); // current time
                                     var y;
                                     $.ajax({type: 'GET',
                                         async: false,
-                                        url:"/data_temperature",
+                                        url:"/data/raw",
                                         dataType:'json',
                                         success:function(data)
                                         {
-                                            y = Number(data['Temperature'])
+                                            y = Number(data['Raw'])
                                         }});
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
+                                    series1.addPoint([x, y], true, true);
+                                }, 150);
                             }
                         }
                     },
@@ -45,11 +45,11 @@
                     },
                     xAxis: {
                         type: 'datetime',
-                        tickPixelInterval: 100
+                        tickPixelInterval: 200
                     },
                     yAxis: {
                         title: {
-                            text: 'Body Temperature Chart--1 second'
+                            text: 'Raw Wave Chart'
                         },
                         plotLines: [{
                             value: 0,
@@ -65,23 +65,312 @@
                         }
                     },
                     legend: {
-                        enabled: false
+                        enabled: true
                     },
                     exporting: {
                         enabled: false
                     },
                     series: [{
-                        name: 'Temperature data',
+                        name: 'Raw wave',
                         data: (function () {
                             // generate an array of random data                             
                             var data = [],
                                 time = (new Date()).getTime(),
                                 i;
 
-                            for (i = -19; i <= 0; i++) {
+                            for (i = -25; i <= 0; i++) {
                                 data.push({
                                     x: time + i * 1000,
-                                    y: 36.75 + Math.random() / 10.0
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    }]
+                });
+                $('#container2').highcharts({
+                    chart: {
+                        type: 'spline',
+                        animation: Highcharts.svg, // don't animate in old IE
+                        marginRight: 10,
+                        events: {
+                            load: function () {
+
+                                // set up the updating of the chart each second
+                                var series1 = this.series[0];
+                                var series2 = this.series[1];
+                                var series3 = this.series[2];
+                                var series4 = this.series[3];
+                                var series5 = this.series[4];
+                                var series6 = this.series[5];
+                                var series7 = this.series[6];
+                                var series8 = this.series[7];
+                                setInterval(function () {
+                                    var x = (new Date()).getTime(); // current time
+                                    var y1, y2, y3, y4, y5, y6, y7, y8;
+                                    $.ajax({type: 'GET',
+                                        async: false,
+                                        url:"/data/eeg",
+                                        dataType:'json',
+                                        success:function(data)
+                                        {
+                                            y1 = Number(data['Delta']);
+                                            y2 = Number(data['Theta']);
+                                            y3 = Number(data['LowAlpha']);
+                                            y4 = Number(data['HigAlpha']);
+                                            y5 = Number(data['LowBeta']);
+                                            y6 = Number(data['HighBeta']);
+                                            y7 = Number(data['LowGamma']);
+                                            y8 = Number(data['MidGamma']);
+                                        }});
+                                    series1.addPoint([x, y1], true, true);
+                                    series2.addPoint([x, y2], true, true);
+                                    series3.addPoint([x, y3], true, true);
+                                    series4.addPoint([x, y4], true, true);
+                                    series5.addPoint([x, y5], true, true);
+                                    series6.addPoint([x, y6], true, true);
+                                    series7.addPoint([x, y7], true, true);
+                                    series8.addPoint([x, y8], true, true);
+                                }, 2000);
+                            }
+                        }
+                    },
+                    title: {
+                        text: ' '
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 200
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'EEG Wave Chart'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                Highcharts.numberFormat(this.y, 2);
+                        }
+                    },
+                    legend: {
+                        enabled: true
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Delta',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'Theta',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'Low Alpha',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'Hig Alpha',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'Low Beta',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'High Beta',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'Low Gamma',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'Mid Gamma',
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -10; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    }]
+                });
+                $('#container3').highcharts({
+                    chart: {
+                        type: 'spline',
+                        animation: Highcharts.svg, // don't animate in old IE
+                        marginRight: 10,
+                        events: {
+                            load: function () {
+
+                                // set up the updating of the chart each second
+                                var series1 = this.series[0];
+                                setInterval(function () {
+                                    var x = (new Date()).getTime(); // current time
+                                    var y;
+                                    $.ajax({type: 'GET',
+                                        async: false,
+                                        url:"/data/ecg",
+                                        dataType:'json',
+                                        success:function(data)
+                                        {
+                                            y = Number(data['ECG'])
+                                        }});
+                                    series1.addPoint([x, y], true, true);
+                                }, 1);
+                            }
+                        }
+                    },
+                    title: {
+                        text: ' '
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 200
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Pulse Wave Chart'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#FF0000'
+                        }]
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                Highcharts.numberFormat(this.y, 2);
+                        }
+                    },
+                    legend: {
+                        enabled: true
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Pulse Wave',
+                        color: '#FF0000' ,
+                        data: (function () {
+                            // generate an array of random data
+                            var data = [],
+                                time = (new Date()).getTime(),
+                                i;
+
+                            for (i = -100; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
                                 });
                             }
                             return data;
@@ -113,7 +402,7 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/group19">Group 19</a>
+                    <a href="/group19">EEG</a>
                 </li>
             </ul>
         </div>
@@ -124,49 +413,23 @@
     <div class="page-header">
         <h2>Hello, {{ name|capitalize }}!</h2>
     </div>
-    <div>
-        <div class="panel panel-default" style="width:500px; float:left;">
-            <div class="panel-heading">Basic Imformation</div>
-            <div>
-                <table class="table" style="width: 480px; margin:0px 10px;">
-                    <tr><td>name: {{ name|capitalize }}</td><td>nickname: SB</td></tr>
-                    <tr><td>age: 20</td><td>gender: male</td></tr>
-                    <tr><td>height: 170cm</td><td>weight: 54kg</td></tr>
-                </table>
-            </div>
+    <div style="clear:both">
+        <div style="text-align: center" >
+            <a href="/home/{{ name }}/temperature">Raw Wave Chart</a>
         </div>
-        <div class="panel panel-default" style="float:left; width:153px; height:153px; position: relative; left:30px;" id="step">
-            <div class="panel-heading" style="text-align: center">
-                <a href="/home/{{ name }}/step">Step Number</a>
-            </div>
-            <div class="panel-body" style="text-align: center">
-                <h1>19999</h1>
-            </div>
-        </div>
-        <div class="panel panel-default" style="float:left; width:153px; height:153px; position: relative; left:60px;" id="fat">
-            <div class="panel-heading" style="text-align: center">
-                <a href="/home/{{ name }}/fat">Fat</a>
-            </div>
-            <div class="panel-body" style="text-align: center">
-                <h1>9.7%</h1>
-            </div>
-        </div>
-        <div class="panel panel-default" style="float:left; width:245px; height:153px; position: relative; left:90px;" id="GPS">
-            <div class="panel-heading" style="text-align: center">GPS</div>
-            <div class="panel-body">
-                <p>
-                    <span style="font-size: large; ">
-                        longitude :  N/A<br>latitude  :  N/A<br>altitude  :  N/A
-                    </span>
-                </p>
-            </div>
-        </div>
+        <div id="container1" style="width:1000px;height:400px;margin:0 auto;"></div>
     </div>
     <div style="clear:both">
         <div style="text-align: center" >
-            <a href="/home/{{ name }}/temperature">Body Temperature Chart--1 second</a>
+            <a href="/home/{{ name }}/temperature">EEG Wave Chart</a>
         </div>
-        <div id="container" style="width:1000px;height:400px;margin:0 auto;"></div>
+        <div id="container2" style="width:1000px;height:400px;margin:0 auto;"></div>
+    </div>
+    <div style="clear:both">
+        <div style="text-align: center" >
+            <a href="/home/{{ name }}/temperature">Pulse Wave Chart</a>
+        </div>
+        <div id="container3" style="width:1000px;height:400px;margin:0 auto;"></div>
     </div>
 </div>
 {% endblock %}
